@@ -12,11 +12,7 @@ public class List<E> implements ListInterface<E> {
     }
      
     public boolean isEmpty() {
-        if (amountElements == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (amountElements == 0);
     }
      
     public List<E> init() {
