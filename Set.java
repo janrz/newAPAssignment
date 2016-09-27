@@ -1,64 +1,93 @@
 package assignment2;
 
 public class Set<E> implements SetInterface<E>{
-
+	
+	int amountElements;
+	List<E> set;
+	
+	Set() {
+		amountElements = 0;
+		set = new List<E extends Comparable>();
+	}
+	
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		amountElements = 0;
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return amountElements == 0;
 	}
 
-	@Override
+	public boolean contains(E number) {
+		return set.find(number);
+	}
+	
 	public void add(E src) {
-		// TODO Auto-generated method stub
-		
+		if (!this.contains(src)) {
+			set.insert(src);
+			amountElements++;
+		}
 	}
 
-	@Override
-	public E get() {
+	public E get(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void delete(E src) {
-		// TODO Auto-generated method stub
-		
+		if (this.contains(src)) {
+			set = set.remove();
+			amountElements--;
+		}
 	}
 
-	@Override
 	public Set<E> difference(Set<E> secondSet) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<E> difference = this.clone();
+        List<E> differenceList = this.set.clone();
+        secondSet.set.goToFirst();
+        differenceList.goToFirst();
+        
+        for (int i = 0; i < secondSet.size(); i++) {
+            for (int x = 0; x < difference.size(); x++) {
+                if (secondSet.get(i).equals(difference.get(x))) {
+                	difference.delete(difference.get(x));
+                differenceList.goToNext();
+                }
+            secondSet.set.goToNext();
+            }
+        }
+        return difference;
 	}
 
-	@Override
-	public Set<E> intersection(Set<E> secondCSet) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> intersection(Set<E> secondSet) {
+		Set<E> intersection = new Set<>();
+        set.goToFirst();
+        secondSet.set.goToFirst();
+        
+        for (int i = 0; i < secondSet.size(); i++) {
+            for (int x = 0; x < set.size(); x++) {
+                if (secondSet.get(i).equals(set.retrieve())) {
+                	intersection.add(set.retrieve());
+                set.goToNext();
+                }
+            secondSet.set.goToNext();
+            }
+        }
+        return intersection;
 	}
 
-	@Override
 	public Set<E> union(Set<E> secondSet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Set<E> symmetricDifference(Set<E> secondSet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return amountElements;
 	}
-	
 	
 }

@@ -33,9 +33,16 @@ public interface SetInterface<E>  {
 	 */
 	boolean isEmpty();
 	
-	/** Add identifier to set
+	/**
+	 * 
+	 * @param number
+	 * @return
+	 */
+	boolean contains(E number);
+	
+	/** Add element to set
 	 * @precondition
-	 * 		Set is not full
+	 * 		Element is not in set
 	 * @postcondition
 	 * 		src is in set
 	 */
@@ -47,7 +54,7 @@ public interface SetInterface<E>  {
 	 * @postcondition
 	 * 		Random element in the set is returned
 	 */
-	E get();
+	E get(int index);
 	
 	/** Delete element from set
 	 * @precondition
@@ -61,6 +68,7 @@ public interface SetInterface<E>  {
 	 * @precondition
 	 * 		-
 	 * @postcondition
+	 * 		return new set of ....
 	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
 	**/
 	Set<E> difference(Set<E> secondSet);
@@ -71,7 +79,7 @@ public interface SetInterface<E>  {
 	 * @postcondition
 	 *		Equal identifiers from first and second collection are returned
 	**/
-	Set<E> intersection(Set<E> secondCSet);
+	Set<E> intersection(Set<E> secondSet);
 	
 	/** Adds identifiers of first and second collection to the array
 	 * @precondition
