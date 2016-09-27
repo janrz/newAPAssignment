@@ -100,7 +100,6 @@ public class List<E> implements ListInterface<E> {
     public boolean goToFirst() {
         if (this.isEmpty()) {
             return false;
-      
         } else {
         	current = first;
             return true;
