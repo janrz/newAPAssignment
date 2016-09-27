@@ -30,8 +30,7 @@ public class Set<E> implements SetInterface<E>{
 	}
 
 	public E get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.contains())
 	}
 
 	public void delete(E src) {
