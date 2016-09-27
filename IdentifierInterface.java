@@ -9,7 +9,7 @@ package assignment2;
  * @structure
  * 		linear
  * @domain
- * 		identifiers 1-infinity
+ * 		letters a-z and combination of letters and numbers
  * 
  * 		identifier()
  * 		PRE
@@ -54,5 +54,10 @@ public interface IdentifierInterface {
 	 */
 	boolean compareTo(Identifier src) ;
 	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean equals(Identifier src);
 }
 

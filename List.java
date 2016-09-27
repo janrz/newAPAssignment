@@ -1,7 +1,7 @@
 package assignment2;
 
 
-public class List<E> implements ListInterface<E> {
+public class List<E extends Comparable> implements ListInterface<E> {
 	
     Node current, first, last;
     private int amountElements;
@@ -24,7 +24,7 @@ public class List<E> implements ListInterface<E> {
         return amountElements;
     }
  
-    public ListInterface<E> insert(E d) {
+    public List<E> insert(E d) {
         find(d);
         if (this.isEmpty()) {
             first = current = last = new Node(d, null, null);
@@ -56,7 +56,7 @@ public class List<E> implements ListInterface<E> {
         }
     }
  
-    public ListInterface<E> remove() {
+    public List<E> remove() {
     	if (this.isEmpty()){
     		return this;
     	}
@@ -133,17 +133,6 @@ public class List<E> implements ListInterface<E> {
             current = current.prior;
             return true;
         }
-    }
- 
- 
-    public List<E> clone() {
-        List<E> clonedList = new List<>();
-        current = first;
-        for (int i = 0; i < this.size(); i++) {
-            clonedList.insert(current.data);
-            current = current.next;
-        }
-        return clonedList;
     }
      
     private class Node {
