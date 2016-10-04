@@ -29,10 +29,6 @@ public class Set<E> implements SetInterface<E>{
 		}
 	}
 
-	public E get(int index) {
-		if (this.contains())
-	}
-
 	public void delete(E src) {
 		if (this.contains(src)) {
 			set = set.remove();
