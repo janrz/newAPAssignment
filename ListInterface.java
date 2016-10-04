@@ -13,7 +13,7 @@ package assignment2;
  * </dl>
  **/
 
-public interface ListInterface<E extends Comparable> extends Cloneable {
+public interface ListInterface<E extends Comparable<E>> {
 
     /**	@precondition -
      *  @postcondition - FALSE: list is not empty.

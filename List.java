@@ -6,12 +6,17 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     Node current, first, last;
     private int amountElements;
     
-    List(){
+    List() {
         current = null;
         amountElements = 0;
     }
     
-    //TODO copy constructor
+    List(List<E> src) {
+    	src.goToFirst();
+    	while (src.goToNext()) {
+    		this.insert(src.retrieve());
+    	}
+    }
      
     public boolean isEmpty() {
         return (amountElements == 0);
@@ -50,7 +55,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
  
-    public E retrieve(){
+    public E retrieve() {
         if (!this.isEmpty()) {
             return current.data;
         } else {

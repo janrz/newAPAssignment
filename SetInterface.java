@@ -64,7 +64,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * 		return new set of ....
 	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
 	**/
-	SetInterface<E> difference(SetInterface<E> secondSet);
+	SetInterface<E> difference(Set<E> secondSet);
 	
 	/** Adds identifiers which are in both the first and second collection to the array
 	 * @precondition
@@ -72,7 +72,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		Equal identifiers from first and second collection are returned
 	**/
-	Set<E> intersection(Set<E> secondSet);
+	SetInterface<E> intersection(Set<E> secondSet);
 	
 	/** Adds identifiers of first and second collection to the array
 	 * @precondition
@@ -80,7 +80,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		All identifiers of first and second collection are returned, but no duplicates
 	**/
-	Set<E> union(Set<E> secondSet);
+	SetInterface<E> union(Set<E> secondSet);
 	
 	/** Adds identifiers of first and second collection to the array, except identifiers which are in both collections
 	 * @precondition
@@ -88,7 +88,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		All non-equal identifiers of first and second collection are returned
 	**/
-	Set<E> symmetricDifference(Set<E> secondSet);
+	SetInterface<E> symmetricDifference(Set<E> secondSet);
 	
 	/** Returns the amount of elements of the set.
 	 * @precondition

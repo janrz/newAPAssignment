@@ -10,7 +10,10 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 		set = new List<E>();
 	}
 	
-	//TODO copy constructor
+	Set(Set<E> src) {
+		amountElements = src.size();
+		set = src.set;
+	}
 	
 	public void init() {
 		amountElements = 0;
@@ -86,5 +89,5 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	public int size() {
 		return amountElements;
 	}
-	
+
 }
