@@ -24,6 +24,12 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 */
 	void init();
 	
+	/**
+	 * TODO
+	 * @return
+	 */
+	List<E> get(int i);
+	
 	/** Returns whether the set is empty
 	 * @precondition
 	 * 		-
@@ -57,6 +63,11 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 */
 	void delete(E src);
 	
+	/**
+	 * TODO 
+	 */
+	List<E> getSet();
+	
 	/** Adds all identifiers of the first collection that are not equal to any identifier in the second collection to the array
 	 * @precondition
 	 * 		-
@@ -64,7 +75,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * 		return new set of ....
 	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
 	**/
-	SetInterface<E> difference(Set<E> secondSet);
+	SetInterface<E> difference(SetInterface<E> secondSet);
 	
 	/** Adds identifiers which are in both the first and second collection to the array
 	 * @precondition
@@ -72,7 +83,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		Equal identifiers from first and second collection are returned
 	**/
-	SetInterface<E> intersection(Set<E> secondSet);
+	SetInterface<E> intersection(SetInterface<E> secondSet);
 	
 	/** Adds identifiers of first and second collection to the array
 	 * @precondition
@@ -80,7 +91,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		All identifiers of first and second collection are returned, but no duplicates
 	**/
-	SetInterface<E> union(Set<E> secondSet);
+	SetInterface<E> union(SetInterface<E> secondSet);
 	
 	/** Adds identifiers of first and second collection to the array, except identifiers which are in both collections
 	 * @precondition
@@ -88,7 +99,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * @postcondition
 	 *		All non-equal identifiers of first and second collection are returned
 	**/
-	SetInterface<E> symmetricDifference(Set<E> secondSet);
+	SetInterface<E> symmetricDifference(SetInterface<E> secondSet);
 	
 	/** Returns the amount of elements of the set.
 	 * @precondition

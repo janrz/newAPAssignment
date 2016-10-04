@@ -12,17 +12,22 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	Set(Set<E> src) {
 		amountElements = src.size();
-		set = src.set;
+		set = src.getSet();
 	}
 	
 	public void init() {
 		amountElements = 0;
 	}
+	
+	public List<E> get(int i) {
+		//TODO iets met index
+	}
 
 	public boolean isEmpty() {
 		return amountElements == 0;
 	}
-
+	
+	//TODO naam variabele number veranderen, want pedantic
 	public boolean contains(E number) {
 		return set.find(number);
 	}
@@ -40,11 +45,15 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 			amountElements--;
 		}
 	}
+	
+	public List<E> getSet() {
+		return this.set;
+	}
 
-	public Set<E> difference(Set<E> secondSet) {
-		Set<E> difference = this.clone();
-        List<E> differenceList = this.set.clone();
-        secondSet.set.goToFirst();
+	public Set<E> difference(SetInterface<E> secondSet) {
+		Set<E> difference = new Set<E>(this);
+        List<E> differenceList = new List<E>(this.set);
+        secondSet.getSet().goToFirst();
         differenceList.goToFirst();
         
         for (int i = 0; i < secondSet.size(); i++) {
@@ -59,10 +68,10 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
         return difference;
 	}
 
-	public Set<E> intersection(Set<E> secondSet) {
+	public Set<E> intersection(SetInterface<E> secondSet) {
 		Set<E> intersection = new Set<>();
         set.goToFirst();
-        secondSet.set.goToFirst();
+        secondSet.getSet().goToFirst();
         
         for (int i = 0; i < secondSet.size(); i++) {
             for (int x = 0; x < set.size(); x++) {
@@ -76,12 +85,12 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
         return intersection;
 	}
 
-	public Set<E> union(Set<E> secondSet) {
+	public Set<E> union(SetInterface<E> secondSet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Set<E> symmetricDifference(Set<E> secondSet) {
+	public Set<E> symmetricDifference(SetInterface<E> secondSet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
