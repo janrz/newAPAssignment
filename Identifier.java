@@ -25,8 +25,8 @@ private String identifierString;
 		return identifierString;
 	}
 	
-	public boolean compareTo(Identifier src) {
-		return false;
+	public int compareTo(Identifier src) {
+		return (identifierString.compareTo(src.identifierString));
 	}
 
 	public boolean equals(Identifier src) {

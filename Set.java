@@ -1,6 +1,6 @@
 package assignment2;
 
-public class Set<E> implements SetInterface<E>{
+public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	int amountElements;
 	List<E> set;
@@ -9,6 +9,8 @@ public class Set<E> implements SetInterface<E>{
 		amountElements = 0;
 		set = new List<E>();
 	}
+	
+	//TODO copy constructor
 	
 	public void init() {
 		amountElements = 0;

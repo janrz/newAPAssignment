@@ -1,7 +1,7 @@
 package assignment2;
 
 
-public class List<E extends Comparable> implements ListInterface<E> {
+public class List<E extends Comparable<E>> implements ListInterface<E> {
 	
     Node current, first, last;
     private int amountElements;
@@ -10,6 +10,8 @@ public class List<E extends Comparable> implements ListInterface<E> {
         current = null;
         amountElements = 0;
     }
+    
+    //TODO copy constructor
      
     public boolean isEmpty() {
         return (amountElements == 0);
@@ -27,7 +29,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
     public List<E> insert(E d) {
         find(d);
         if (this.isEmpty()) {
-            first = current = last = new Node(d, null, null);
+            first = current = last = new Node(d);
             amountElements ++;
         } else if (first.data.compareTo(d) > 0) {
             current = new Node(d, null,first);

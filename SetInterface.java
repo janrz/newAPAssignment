@@ -14,7 +14,7 @@ package assignment2;
  * 		PRE
  * 		POST set object contains only the empty collection
  */
-public interface SetInterface<E>  {
+public interface SetInterface<E extends Comparable<E>>  {
 	
 	/** Initializes the set object to the array
 	 * @precondition
@@ -64,7 +64,7 @@ public interface SetInterface<E>  {
 	 * 		return new set of ....
 	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
 	**/
-	Set<E> difference(Set<E> secondSet);
+	SetInterface<E> difference(SetInterface<E> secondSet);
 	
 	/** Adds identifiers which are in both the first and second collection to the array
 	 * @precondition
