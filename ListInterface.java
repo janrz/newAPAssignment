@@ -8,8 +8,8 @@ package assignment2;
  *				element in the list.
  *	@constructor - List();
  *	<dl>
- *		<dt><b>PRE-conditie</b><dd>		-
- *		<dt><b>POST-conditie</b><dd> 	The new List-object is the empty list.
+ *		<dt><b>PRE-condition</b><dd>		-
+ *		<dt><b>POST-condition</b><dd> 	The new List-object is the empty list.
  * </dl>
  **/
 
