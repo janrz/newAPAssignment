@@ -55,8 +55,11 @@ public interface IdentifierInterface {
 	boolean compareTo(Identifier src) ;
 	
 	/**
+	 * @precondition
 	 * 
-	 * @return
+	 * @postcondition
+	 * 		true: 
+	 * 		false
 	 */
 	boolean equals(Identifier src);
 }
