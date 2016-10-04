@@ -7,7 +7,7 @@ public class Set<E> implements SetInterface<E>{
 	
 	Set() {
 		amountElements = 0;
-		set = new List<E extends Comparable>();
+		set = new List<E>();
 	}
 	
 	public void init() {
@@ -27,11 +27,6 @@ public class Set<E> implements SetInterface<E>{
 			set.insert(src);
 			amountElements++;
 		}
-	}
-
-	public E get(int index) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void delete(E src) {

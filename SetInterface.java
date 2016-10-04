@@ -48,13 +48,6 @@ public interface SetInterface<E>  {
 	 */
 	void add(E src);
 	
-	/** Get element from set
-	 * @precondition
-	 * 		Set is not empty
-	 * @postcondition
-	 * 		Random element in the set is returned
-	 */
-	E get(int index);
 	
 	/** Delete element from set
 	 * @precondition
@@ -105,5 +98,4 @@ public interface SetInterface<E>  {
 	 **/
 	int size();
 	
-	//clone?
 }

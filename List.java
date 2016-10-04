@@ -50,7 +50,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
  
     public E retrieve(){
         if (!this.isEmpty()) {
-            return current.data.clone();
+            return current.data;
         } else {
         	return null;
         }
