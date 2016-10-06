@@ -17,20 +17,20 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     		this.insert(src.retrieve());
     	}
     }
-     
-    public boolean isEmpty() {
-        return (amountElements == 0);
-    }
-     
+    
     public List<E> init() {
         amountElements = 0;
         return this;
     }
- 
+
     public int size() {
         return amountElements;
     }
- 
+    
+    public boolean isEmpty() {
+        return (amountElements == 0);
+    }
+    
     public List<E> insert(E d) {
         find(d);
         if (this.isEmpty()) {
@@ -132,7 +132,6 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
         }
     }
  
- 
     public boolean goToPrevious() {
         if (this.isEmpty()||(current==first)) {
             return false;
@@ -140,6 +139,15 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
             current = current.prior;
             return true;
         }
+    }
+    
+    public ListInterface<E> copy() {
+    	List<E> copiedList = new List<E>();
+    	this.goToFirst();
+    	while (this.goToNext()) {
+    		copiedList.insert(this.retrieve());
+    	}
+    	return copiedList;
     }
      
     private class Node {
