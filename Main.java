@@ -7,6 +7,8 @@ import java.math.BigInteger;
 public class Main {
 	PrintStream out;
 	APException e;
+	
+	//deze goed?
 	HashMap<Set<BigInteger>,Identifier> hashmap = new HashMap<Set<BigInteger>,Identifier>();
 	
 	Main() {
@@ -73,7 +75,7 @@ public class Main {
 		
 		// Insert variable into table
 		
-		//Jan--> put?
+		//Jan--> put (was hiervoor add)?
 		hashmap.put(collection, identifier);
 		
 		return;
@@ -175,8 +177,9 @@ public class Main {
 		while (expression.hasNext("[a-zA-Z0-9]")) {
 			identifier.add(expression.next());
 		}
-		//Jan--> get?
+		//Jan--> containsKey? (was hiervoor contains)
 		if (hashmap.containsKey(identifier)) {
+			//Jan--> get (was hiervoor retrieve)?
 			System.out.println(hashmap.get(identifier).toString());
 			return hashmap.get(identifier);
 		} else {
@@ -197,7 +200,7 @@ public class Main {
 		
 		Set<BigInteger> collection = new Set<>();
 		
-		//newNumber?
+		//newNumber (was eerst een nieuw aangemaakte numberobject?
 		while ((set.hasNext("}"))) {
 			set.skip("\\s*");
 			while (set.hasNextInt()){
