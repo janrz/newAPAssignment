@@ -7,7 +7,7 @@ import java.math.BigInteger;
 public class Main {
 	PrintStream out;
 	APException e;
-	HashMap<Set<BigInteger>,Identifier> table = new HashMap<Set<BigInteger>,Identifier>();
+	HashMap<Set<BigInteger>,Identifier> hashmap = new HashMap<Set<BigInteger>,Identifier>();
 	
 	Main() {
 		out = new PrintStream(System.out);
@@ -72,7 +72,9 @@ public class Main {
 //		checkEOL(statement);
 		
 		// Insert variable into table
-		table.insert(collection, identifier);
+		
+		//Jan--> put?
+		hashmap.put(collection, identifier);
 		
 		return;
 	}
@@ -80,11 +82,11 @@ public class Main {
 		Set<BigInteger> processPrintStatement (Scanner statement) throws APException {
 		statement.useDelimiter("");
 		statement.skip("\\s*");
-		Set<BigInteger> collection = new Set<>();
+		Set<BigInteger> set = new Set<>();
 
-		collection = processExpression(statement);
-		System.out.println(collection.get().toString());
-		return collection;
+		set = processExpression(statement);
+		System.out.println(set.get().toString());
+		return set;
 	}
 	
 	void printCollection(Set<BigInteger> collection) {
@@ -173,9 +175,10 @@ public class Main {
 		while (expression.hasNext("[a-zA-Z0-9]")) {
 			identifier.add(expression.next());
 		}
-		if (table.contains(identifier)) {
-			System.out.println(table.retrieve(identifier).toString());
-			return table.retrieve(identifier);
+		//Jan--> get?
+		if (hashmap.containsKey(identifier)) {
+			System.out.println(hashmap.get(identifier).toString());
+			return hashmap.get(identifier);
 		} else {
 			throw new APException("Identifier " + identifier.get() + " not found.");
 		}
@@ -193,8 +196,9 @@ public class Main {
 	
 		
 		Set<BigInteger> collection = new Set<>();
+		
+		//newNumber?
 		while ((set.hasNext("}"))) {
-			BigInteger newNumber = new BigInteger();
 			set.skip("\\s*");
 			while (set.hasNextInt()){
 				newNumber.add(set.nextInt());
