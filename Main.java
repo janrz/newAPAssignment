@@ -8,6 +8,7 @@ public class Main {
 	
 	PrintStream out;
 	
+	
 	HashMap<Identifier, SetInterface<BigInteger>> hashmap = new HashMap<Identifier, SetInterface<BigInteger>>();
 	
 	Main() {
@@ -107,6 +108,7 @@ public class Main {
 	
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
 		SetInterface<BigInteger> collection = new Set<>();
+		System.out.println(expression.toString());
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
@@ -118,7 +120,7 @@ public class Main {
 			}
 			expression.next();
 		} else {
-			throw new APException("No valid factor found.");
+			throw new APException("No valid factor found, found character" + expression.next());
 		}
 		return collection;
 	}
@@ -141,7 +143,7 @@ public class Main {
 	
 		SetInterface<BigInteger> collection = new Set<>();
 		
-		while ((set.hasNext("}"))) {
+		while (!(set.hasNext("}"))) {
 			String numberString = "";
 			set.skip("\\s*");
 			while (set.hasNextInt()){
