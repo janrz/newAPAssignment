@@ -1,4 +1,5 @@
 package assignment2;
+import java.math.BigInteger;
 
 /** ADT for the class Set
  * 
@@ -28,7 +29,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * TODO
 	 * @return
 	 */
-	List<E> get(int i);
+	E get(int i);
 	
 	/** Returns whether the set is empty
 	 * @precondition
@@ -68,6 +69,11 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 */
 	List<E> getSet();
 	
+	/**
+	 * TODO
+	 */
+	String toString();
+	
 	/** Adds all identifiers of the first collection that are not equal to any identifier in the second collection to the array
 	 * @precondition
 	 * 		-
@@ -75,7 +81,7 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 * 		return new set of ....
 	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
 	**/
-	SetInterface<E> difference(SetInterface<E> secondSet);
+	SetInterface<E> complement(SetInterface<E> secondSet);
 	
 	/** Adds identifiers which are in both the first and second collection to the array
 	 * @precondition

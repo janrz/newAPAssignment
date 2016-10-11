@@ -18,7 +18,7 @@ private String identifierString;
 	}
 	
 	public void add(String input) {
-		identifierString = input;
+		identifierString += input;
 	}
 	
 	public String get() {

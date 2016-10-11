@@ -1,5 +1,6 @@
 package assignment2;
 
+
 public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	int amountElements;
@@ -19,17 +20,20 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 		amountElements = 0;
 	}
 	
-	public List<E> get(int i) {
-		//TODO iets met index
+	public E get(int index) {
+		this.set.goToFirst();
+		for (int i = 0; i < index; i++) {
+			this.set.goToNext();
+		}
+		return set.retrieve();
 	}
 
 	public boolean isEmpty() {
 		return amountElements == 0;
 	}
 	
-	//TODO naam variabele number veranderen, want pedantic
-	public boolean contains(E number) {
-		return set.find(number);
+	public boolean contains(E src) {
+		return set.find(src);
 	}
 	
 	public void add(E src) {
@@ -49,50 +53,66 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	public List<E> getSet() {
 		return this.set;
 	}
-
-	public Set<E> difference(SetInterface<E> secondSet) {
-		Set<E> difference = new Set<E>(this);
-        List<E> differenceList = new List<E>(this.set);
-        secondSet.getSet().goToFirst();
-        differenceList.goToFirst();
-        
-        for (int i = 0; i < secondSet.size(); i++) {
-            for (int x = 0; x < difference.size(); x++) {
-                if (secondSet.get(i).equals(difference.get(x))) {
-                	difference.delete(difference.get(x));
-                differenceList.goToNext();
-                }
-            secondSet.set.goToNext();
-            }
-        }
-        return difference;
+	
+	public String toString() {
+		String setString = "";
+		set.goToFirst();
+		
+		setString += "{";
+		for (int i = 0; i < amountElements; i++) {
+			setString += set.retrieve().toString();
+			if (i < amountElements - 1) {
+				setString += ", ";
+			}
+		}
+		setString += "}";
+		return setString;
 	}
 
-	public Set<E> intersection(SetInterface<E> secondSet) {
+	public SetInterface<E> complement(SetInterface<E> secondSet) {
+		Set<E> complement = new Set<>(this);
+	
+		for (int i = 0; i < secondSet.size(); i++) {
+			for (int x = 0; x < this.size(); x++) {
+				if (secondSet.get(i).equals(this.get(x))) {
+					complement.delete(this.get(x));
+				}
+			}
+		}
+		
+		return complement;
+	}
+
+	public SetInterface<E> intersection(SetInterface<E> secondSet) {
 		Set<E> intersection = new Set<>();
-        set.goToFirst();
-        secondSet.getSet().goToFirst();
         
         for (int i = 0; i < secondSet.size(); i++) {
-            for (int x = 0; x < set.size(); x++) {
-                if (secondSet.get(i).equals(set.retrieve())) {
-                	intersection.add(set.retrieve());
-                set.goToNext();
+            for (int x = 0; x < this.size(); x++) {
+                if (secondSet.get(i).equals(this.get(x))) {
+                	intersection.add(this.get(x));
                 }
-            secondSet.set.goToNext();
             }
         }
         return intersection;
 	}
 
-	public Set<E> union(SetInterface<E> secondSet) {
-		// TODO Auto-generated method stub
-		return null;
+	public SetInterface<E> union(SetInterface<E> secondSet) {
+		Set<E> union = new Set<>(this);
+		
+		for (int i = 0; i < secondSet.size(); i++) {
+			if (!union.contains(secondSet.get(i))) {
+				union.add(secondSet.get(i));
+			}
+		}
+		return union;
 	}
 
-	public Set<E> symmetricDifference(SetInterface<E> secondSet) {
-		// TODO Auto-generated method stub
-		return null;
+	public SetInterface<E> symmetricDifference(SetInterface<E> secondSet) {
+		SetInterface<E> union = this.union(secondSet);
+		SetInterface<E> intersection = this.intersection(secondSet);
+		SetInterface<E> symmetricDifference = union.complement(intersection);
+		
+		return symmetricDifference;
 	}
 
 	public int size() {

@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.math.BigInteger;
 
 public class Main {
-	PrintStream out;
-	APException e;
 	
-	//deze goed?
-	HashMap<Set<BigInteger>,Identifier> hashmap = new HashMap<Set<BigInteger>,Identifier>();
+	PrintStream out;
+	
+	HashMap<Identifier, SetInterface<BigInteger>> hashmap = new HashMap<Identifier, SetInterface<BigInteger>>();
 	
 	Main() {
 		out = new PrintStream(System.out);
@@ -17,8 +16,7 @@ public class Main {
 	
 	void start() {
 		Scanner in = new Scanner(System.in);
-		while (in.hasNextLine()){
-			//TODO leest niet de laatste regel van de input
+		while (in.hasNextLine()) {
 			try {
 				Scanner statement = new Scanner(in.nextLine());
 				processStatement(statement);
@@ -33,7 +31,7 @@ public class Main {
 		statement.useDelimiter("");
 		statement.skip("\\s*");
 		if (!statement.hasNext()) {
-			throw new APException("Encountered empty line"); // TODO moet hier een exception/error message?
+			throw new APException("Encountered empty line");
 		} else if (statement.hasNext("\\/")) {
 			return;
 		} else if (statement.hasNext("[a-zA-Z]")) {
@@ -41,24 +39,15 @@ public class Main {
 		} else if (statement.hasNext("\\?")){
 			statement.next();
 			out.print("\n");
-			printCollection(processPrintStatement(statement));
+			processPrintStatement(statement).toString();
 		} else {
 			throw new APException("Invalid line: " + statement.nextLine());
 		}
 	}
 
 	void processAssignment(Scanner statement) throws APException {
-		statement.useDelimiter("");
-		statement.skip("\\s*");
+		Identifier identifier = getIdentifier(statement);
 		
-		// Create identifier
-		Identifier identifier = new Identifier();
-		while (statement.hasNext("[a-zA-Z0-9]")) {
-			String string = statement.next();
-			identifier.add(string);
-		}
-		
-		// Check if = is present, if present skip =
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
 				throw new APException("= expected, not found");
@@ -66,54 +55,21 @@ public class Main {
 				statement.next();
 			}
 		}
-		statement.next();
 		
-		// Create collection
-		Set<BigInteger> collection = new Set<>();
-		collection = processExpression(statement);
-//		checkEOL(statement);
-		
-		// Insert variable into table
-		
-		//Jan--> put (was hiervoor add)?
-		hashmap.put(collection, identifier);
-		
+		SetInterface<BigInteger> collection = processExpression(statement);
+		hashmap.put(identifier, collection);
 		return;
 	}
 
-		Set<BigInteger> processPrintStatement (Scanner statement) throws APException {
-		statement.useDelimiter("");
-		statement.skip("\\s*");
-		Set<BigInteger> set = new Set<>();
-
+	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
+		SetInterface<BigInteger> set = new Set<>();
 		set = processExpression(statement);
-		System.out.println(set.get().toString());
 		return set;
 	}
-	
-	void printCollection(Set<BigInteger> collection) {
-		System.out.println("dit is " + collection.toString());
-		List<BigInteger> collectionList = collection.clone().collection;
 
-		collectionList.goToFirst();
-		out.print("{");
-		if (collectionList.size() > 0) { //collectionList.size() > 0
-			for (int i = 0; i < collection.size(); i++) {
-				out.print(collectionList.retrieve().toString());
-				if (i < collection.size() - 1) {
-					out.print(", ");
-				}
-				collectionList.goToNext();
-			}
-		}
-		out.print(" }");
-	}
-
-	Set<BigInteger> processExpression(Scanner expression) throws APException {
-		expression.useDelimiter("");
-		expression.skip("\\s*");
-		Set<BigInteger> firstCollection = new Set<>();
-		Set<BigInteger> secondCollection = new Set<>();
+	SetInterface<BigInteger> processExpression(Scanner expression) throws APException {
+		SetInterface<BigInteger> firstCollection = new Set<>();
+		SetInterface<BigInteger> secondCollection = new Set<>();
 		
 		firstCollection = processTerm(expression);
 		String additiveOperator;
@@ -124,7 +80,7 @@ public class Main {
 			if (additiveOperator.equals("+")) {
 				firstCollection = firstCollection.union(secondCollection);
 			} else if (additiveOperator.equals("-")) {
-				firstCollection = firstCollection.difference(secondCollection);
+				firstCollection = firstCollection.complement(secondCollection);
 			} else {
 				firstCollection = firstCollection.symmetricDifference(secondCollection);
 			}
@@ -132,14 +88,13 @@ public class Main {
 		return firstCollection;
 	}
 	
-	Set<BigInteger> processTerm(Scanner expression) throws APException {
-		expression.useDelimiter("");
+	SetInterface<BigInteger> processTerm(Scanner expression) throws APException {
 		
-		Set<BigInteger> firstCollection = new Set<>();
-		Set<BigInteger> secondCollection = new Set<>();
+		SetInterface<BigInteger> firstCollection = new Set<>();
+		SetInterface<BigInteger> secondCollection = new Set<>();
 		
 		firstCollection = processFactor(expression);
-		while (expression.hasNext() && !hasAdditiveOperator(expression) && hasMultiplicativeOperator(expression) == true) {
+		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
 			if (expression.hasNext("\\)")) {
 				expression.next();
 				return firstCollection;
@@ -150,14 +105,12 @@ public class Main {
 		return firstCollection;
 	}
 	
-	Set<BigInteger> processFactor(Scanner expression) throws APException {
-		expression.useDelimiter("");
-		expression.skip("\\s*");
-		Set<BigInteger> collection = new Set<>();
+	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
+		SetInterface<BigInteger> collection = new Set<>();
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
-			collection = getIdentifier(expression);
+			collection = hashmap.get(getIdentifier(expression));
 		} else if (expression.hasNext("\\(")) {
 			collection = processComplexFactor(expression);
 			if (!expression.hasNext("\\)")) {
@@ -170,43 +123,32 @@ public class Main {
 		return collection;
 	}
 	
-	Set<BigInteger> getIdentifier(Scanner expression) throws APException {
-		expression.useDelimiter("");
-		expression.skip("\\s*");
-		IdentifierInterface identifier = new Identifier();
+	Identifier getIdentifier(Scanner expression) throws APException {
+		Identifier identifier = new Identifier();
 		while (expression.hasNext("[a-zA-Z0-9]")) {
 			identifier.add(expression.next());
 		}
-		//Jan--> containsKey? (was hiervoor contains)
-		if (hashmap.containsKey(identifier)) {
-			//Jan--> get (was hiervoor retrieve)?
-			System.out.println(hashmap.get(identifier).toString());
-			return hashmap.get(identifier);
-		} else {
-			throw new APException("Identifier " + identifier.get() + " not found.");
-		}
+		return identifier;
 	}
 	
-	Set<BigInteger> processComplexFactor (Scanner expression) throws APException {
+	SetInterface<BigInteger> processComplexFactor (Scanner expression) throws APException {
 		expression.next();
 		return processExpression(expression);
 	}
 	
-	Set<BigInteger> processSet(Scanner set) throws APException {
+	SetInterface<BigInteger> processSet(Scanner set) throws APException {
 		set.next();
-		set.useDelimiter("");
-		set.skip("\\s*");
 	
+		SetInterface<BigInteger> collection = new Set<>();
 		
-		Set<BigInteger> collection = new Set<>();
-		
-		//newNumber (was eerst een nieuw aangemaakte numberobject?
 		while ((set.hasNext("}"))) {
+			String numberString = "";
 			set.skip("\\s*");
 			while (set.hasNextInt()){
-				newNumber.add(set.nextInt());
+				
+				numberString += set.nextInt();
 			}
-			collection.add(newNumber);
+			collection.add(new BigInteger(numberString));
 			set.skip("\\s*");
 			if (set.hasNext(",")) {
 				set.next();
@@ -217,23 +159,11 @@ public class Main {
 	}
 
 	boolean hasAdditiveOperator(Scanner expression) {
-		expression.useDelimiter("");
-		expression.skip("\\s*");
-		if (expression.hasNext("\\|") || expression.hasNext("\\+") || expression.hasNext("\\-")) {
-			return true;
-		} else {
-			return false;
-		}
+		return (expression.hasNext("[\\|\\+\\-]"));
 	}
 	
 	boolean hasMultiplicativeOperator(Scanner expression) {
-		expression.useDelimiter("");
-		expression.skip("\\s*");
-		if (expression.hasNext("\\*")) {
-			return true;
-		} else {
-			return false;
-		}
+		return (expression.hasNext("\\*"));
 	}
 	
 	void checkEOL(Scanner expression) throws APException {
@@ -247,6 +177,3 @@ public class Main {
 	}
 
 }
-
-
-

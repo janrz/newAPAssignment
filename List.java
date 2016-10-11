@@ -11,13 +11,6 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
         amountElements = 0;
     }
     
-    List(List<E> src) {
-    	src.goToFirst();
-    	while (src.goToNext()) {
-    		this.insert(src.retrieve());
-    	}
-    }
-    
     public List<E> init() {
         amountElements = 0;
         return this;
