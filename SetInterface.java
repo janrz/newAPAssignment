@@ -1,5 +1,4 @@
 package assignment2;
-import java.math.BigInteger;
 
 /** ADT for the class Set
  * 

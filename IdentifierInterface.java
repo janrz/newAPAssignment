@@ -52,7 +52,7 @@ public interface IdentifierInterface {
 	 * 		true: identifiers are equal
 	 * 		false: identifiers are not equal
 	 */
-	boolean compareTo(Identifier src) ;
+	int compareTo(Identifier src) ;
 	
 	/**
 	 * @precondition
