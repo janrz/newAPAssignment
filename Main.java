@@ -39,8 +39,8 @@ public class Main {
 			processAssignment(statement);
 		} else if (statement.hasNext("\\?")){
 			statement.next();
-			out.print("check ?");
-			processPrintStatement(statement).toString();
+			System.out.print("check ?");
+			processPrintStatement(statement);
 		} else {
 			throw new APException("Invalid line: " + statement.nextLine());
 		}
@@ -48,7 +48,6 @@ public class Main {
 
 	void processAssignment(Scanner statement) throws APException {
 		Identifier identifier = getIdentifier(statement);
-		
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
 				throw new APException("= expected, not found");
@@ -67,6 +66,9 @@ public class Main {
 	}
 
 	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
+		System.out.print("check of ? wordt gevonden");
+		statement.useDelimiter("");
+		statement.skip("\\s*");
 		SetInterface<BigInteger> set = new Set<>();
 		set = processExpression(statement);
 		return set;
@@ -122,7 +124,7 @@ public class Main {
 			}
 			expression.next();
 		} else {
-			throw new APException("No valid factor found, found character" + expression);
+			throw new APException("No valid factor found, found character");
 		}
 		return collection;
 	}
