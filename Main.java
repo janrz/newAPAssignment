@@ -39,7 +39,7 @@ public class Main {
 			processAssignment(statement);
 		} else if (statement.hasNext("\\?")){
 			statement.next();
-			out.print("\n");
+			out.print("check ?");
 			processPrintStatement(statement).toString();
 		} else {
 			throw new APException("Invalid line: " + statement.nextLine());
@@ -56,7 +56,11 @@ public class Main {
 				statement.next();
 			}
 		}
-		
+		statement.next();
+		statement.next();
+		if (statement.hasNext("\\{")){
+			System.out.print("check of { wordt gevonden \n");
+		}
 		SetInterface<BigInteger> collection = processExpression(statement);
 		hashmap.put(identifier, collection);
 		return;
@@ -71,7 +75,6 @@ public class Main {
 	SetInterface<BigInteger> processExpression(Scanner expression) throws APException {
 		SetInterface<BigInteger> firstCollection = new Set<>();
 		SetInterface<BigInteger> secondCollection = new Set<>();
-		
 		firstCollection = processTerm(expression);
 		String additiveOperator;
 		
@@ -93,7 +96,6 @@ public class Main {
 		
 		SetInterface<BigInteger> firstCollection = new Set<>();
 		SetInterface<BigInteger> secondCollection = new Set<>();
-		
 		firstCollection = processFactor(expression);
 		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
 			if (expression.hasNext("\\)")) {
@@ -108,8 +110,8 @@ public class Main {
 	
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
 		SetInterface<BigInteger> collection = new Set<>();
-		System.out.println(expression.toString());
 		if (expression.hasNext("\\{")) {
+			System.out.print("check of { wordt gevonden \n");
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
 			collection = hashmap.get(getIdentifier(expression));
@@ -120,7 +122,7 @@ public class Main {
 			}
 			expression.next();
 		} else {
-			throw new APException("No valid factor found, found character" + expression.next());
+			throw new APException("No valid factor found, found character" + expression);
 		}
 		return collection;
 	}
@@ -140,7 +142,7 @@ public class Main {
 	
 	SetInterface<BigInteger> processSet(Scanner set) throws APException {
 		set.next();
-	
+		System.out.print("check of set wordt aangeroepen \n");
 		SetInterface<BigInteger> collection = new Set<>();
 		
 		while (!(set.hasNext("}"))) {
@@ -157,6 +159,7 @@ public class Main {
 			}
 		}
 		set.next();
+		System.out.print("check of dit ook nog werkt \n");
 		return collection;
 	}
 
