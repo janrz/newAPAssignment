@@ -36,8 +36,7 @@ public class Main {
 			processAssignment(statement);
 		} else if (statement.hasNext("\\?")){
 			statement.next();
-			System.out.print("check ?");
-			processPrintStatement(statement);
+			processPrintStatement(statement).toString();
 		} else {
 			throw new APException("Invalid line");
 		}
@@ -55,16 +54,19 @@ public class Main {
 		}
 		statement.next();
 		statement.next();
-		if (statement.hasNext("\\{")){
-			System.out.print("check of { wordt gevonden \n");
-		}
 		SetInterface<BigInteger> collection = processExpression(statement);
+		
+		if (hashmap.containsKey(identifier)) {
+			hashmap.remove(identifier);
+		}
 		hashmap.put(identifier, collection);
+		for(int i = 0; i < hashmap.get(identifier).size(); i++) {
+			System.out.print(hashmap.get(identifier).get(i) + ", ");
+		}
 		return;
 	}
 
 	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
-		System.out.print("check of ? wordt gevonden");
 		statement = deleteSpaces(statement);
 		SetInterface<BigInteger> set = new Set<>();
 		set = processExpression(statement);
@@ -113,7 +115,6 @@ public class Main {
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
 		SetInterface<BigInteger> collection = new Set<>();
 		if (expression.hasNext("\\{")) {
-			System.out.print("check of { wordt gevonden \n");
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
 			collection = hashmap.get(getIdentifier(expression));
@@ -144,7 +145,6 @@ public class Main {
 	
 	SetInterface<BigInteger> processSet(Scanner set) throws APException {
 		set.next();
-		System.out.print("check of set wordt aangeroepen \n");
 		SetInterface<BigInteger> collection = new Set<>();
 		
 		while (!(set.hasNext("}"))) {
@@ -161,7 +161,6 @@ public class Main {
 			}
 		}
 		set.next();
-		System.out.print("check of dit ook nog werkt \n");
 		return collection;
 	}
 
