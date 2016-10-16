@@ -7,8 +7,6 @@ import java.math.BigInteger;
 public class Main {
 	
 	PrintStream out;
-	
-	
 	HashMap<Identifier, SetInterface<BigInteger>> hashmap = new HashMap<Identifier, SetInterface<BigInteger>>();
 	
 	Main() {
@@ -29,7 +27,7 @@ public class Main {
 	}
 	
 	void processStatement(Scanner statement) throws APException {
-		deleteSpaces(statement);
+		statement = deleteSpaces(statement);
 		if (!statement.hasNext()) {
 			throw new APException("Encountered empty line");
 		} else if (statement.hasNext("\\/")) {
@@ -41,12 +39,12 @@ public class Main {
 			System.out.print("check ?");
 			processPrintStatement(statement);
 		} else {
-			throw new APException("Invalid line: " + statement.nextLine());
+			throw new APException("Invalid line");
 		}
 	}
 
 	void processAssignment(Scanner statement) throws APException {
-		deleteSpaces(statement);
+		statement = deleteSpaces(statement);
 		Identifier identifier = getIdentifier(statement);
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
@@ -67,7 +65,7 @@ public class Main {
 
 	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
 		System.out.print("check of ? wordt gevonden");
-		deleteSpaces(statement);
+		statement = deleteSpaces(statement);
 		SetInterface<BigInteger> set = new Set<>();
 		set = processExpression(statement);
 		return set;
@@ -80,7 +78,7 @@ public class Main {
 		String additiveOperator;
 		
 		while (expression.hasNext() && hasAdditiveOperator(expression) && !expression.hasNext("\\)")) {
-			deleteSpaces(expression);
+			expression = deleteSpaces(expression);
 			System.out.print("check of + wordt gevonden");
 			additiveOperator = expression.next();
 			secondCollection = processTerm(expression);
@@ -181,9 +179,10 @@ public class Main {
 		}
 	}
 	
-	void deleteSpaces (Scanner expression){
+	Scanner deleteSpaces (Scanner expression){
 		expression.useDelimiter("");
 		expression.skip("\\s*");
+		return expression;
 	}
 	
 	public static void main(String[] args) {
