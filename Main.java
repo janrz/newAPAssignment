@@ -29,8 +29,7 @@ public class Main {
 	}
 	
 	void processStatement(Scanner statement) throws APException {
-		statement.useDelimiter("");
-		statement.skip("\\s*");
+		deleteSpaces(statement);
 		if (!statement.hasNext()) {
 			throw new APException("Encountered empty line");
 		} else if (statement.hasNext("\\/")) {
@@ -47,6 +46,7 @@ public class Main {
 	}
 
 	void processAssignment(Scanner statement) throws APException {
+		deleteSpaces(statement);
 		Identifier identifier = getIdentifier(statement);
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
@@ -67,8 +67,7 @@ public class Main {
 
 	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
 		System.out.print("check of ? wordt gevonden");
-		statement.useDelimiter("");
-		statement.skip("\\s*");
+		deleteSpaces(statement);
 		SetInterface<BigInteger> set = new Set<>();
 		set = processExpression(statement);
 		return set;
@@ -81,9 +80,12 @@ public class Main {
 		String additiveOperator;
 		
 		while (expression.hasNext() && hasAdditiveOperator(expression) && !expression.hasNext("\\)")) {
+			deleteSpaces(expression);
+			System.out.print("check of + wordt gevonden");
 			additiveOperator = expression.next();
 			secondCollection = processTerm(expression);
 			if (additiveOperator.equals("+")) {
+				System.out.print("check of + wordt gevonden");
 				firstCollection = firstCollection.union(secondCollection);
 			} else if (additiveOperator.equals("-")) {
 				firstCollection = firstCollection.complement(secondCollection);
@@ -177,6 +179,11 @@ public class Main {
 		if (expression.hasNext()) {
 			throw new APException("End of line expected, but encountered more characters.");
 		}
+	}
+	
+	void deleteSpaces (Scanner expression){
+		expression.useDelimiter("");
+		expression.skip("\\s*");
 	}
 	
 	public static void main(String[] args) {
