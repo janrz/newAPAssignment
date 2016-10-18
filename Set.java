@@ -51,17 +51,16 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public List<E> getSet() {
-		return this.set;
+		return set;
 	}
 	
 	public String toString() {
-		String setString = "";
-		set.goToFirst();
+		String setString = "{";
 		
-		setString += "{";
-		for (int i = 0; i < amountElements; i++) {
+		set.goToFirst();
+		for (int i = 0; i < this.size(); i++) {
 			setString += set.retrieve().toString();
-			if (i < amountElements - 1) {
+			if (i < this.size() - 1) {
 				setString += ", ";
 			}
 		}
@@ -85,7 +84,7 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 
 	public SetInterface<E> intersection(SetInterface<E> secondSet) {
 		Set<E> intersection = new Set<>();
-        
+		
         for (int i = 0; i < secondSet.size(); i++) {
             for (int x = 0; x < this.size(); x++) {
                 if (secondSet.get(i).equals(this.get(x))) {

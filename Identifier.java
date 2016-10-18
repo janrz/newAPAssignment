@@ -4,12 +4,11 @@ public class Identifier implements IdentifierInterface{
 
 private String identifierString;
 	
-	Identifier(){
+	Identifier() {
 		identifierString = "";
 	}
 	
-	Identifier(Identifier src){
-		identifierString = "";
+	Identifier(Identifier src) {
 		identifierString = src.get();
 	}
 	
@@ -26,10 +25,11 @@ private String identifierString;
 	}
 	
 	public int compareTo(Identifier src) {
-		return (identifierString.compareTo(src.identifierString));
+		return (this.get().compareTo(src.get()));
 	}
 
 	public boolean equals(Identifier src) {
-		return (identifierString.equals(src.identifierString));
+		return (this.get().equals(src.get()));
 	}
+	
 }

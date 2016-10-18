@@ -27,7 +27,7 @@ public interface IdentifierInterface {
 	 * @postcondition
 	 * 		identifier contains identifierString
 	 */
-	void init ();
+	void init();
 
 	/** Adds character to identifier
 	 * @precondition
@@ -52,7 +52,7 @@ public interface IdentifierInterface {
 	 * 		true: identifiers are equal
 	 * 		false: identifiers are not equal
 	 */
-	int compareTo(Identifier src) ;
+	int compareTo(Identifier src);
 	
 	/**
 	 * @precondition
@@ -62,5 +62,5 @@ public interface IdentifierInterface {
 	 * 		false
 	 */
 	boolean equals(Identifier src);
+	
 }
-

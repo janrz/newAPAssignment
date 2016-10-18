@@ -30,7 +30,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
             first = current = last = new Node(d);
             amountElements ++;
         } else if (first.data.compareTo(d) > 0) {
-            current = new Node(d, null,first);
+            current = new Node(d, null, first);
             first = current;
             current.next.prior = current;
             amountElements ++;
@@ -57,18 +57,18 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public List<E> remove() {
-    	if (this.isEmpty()){
+    	if (this.isEmpty()) {
     		return this;
     	}
     	else if (amountElements == 1) {
             current = null;
             current = new Node(null , current, null);
             amountElements --;
-        } else if (current.prior == null){
+        } else if (current.prior == null) {
             current.next.prior = null;
             current = current.next;  
             amountElements --;
-        } else if (current.next == null){
+        } else if (current.next == null) {
             current.prior.next = null;
             current = current.prior;
             amountElements --;
@@ -115,9 +115,8 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
         }
     }
  
- 
     public boolean goToNext() {
-        if (this.isEmpty()||current==last) {
+        if (this.isEmpty() || current == last) {
             return false;
         } else {
             current = current.next;
@@ -126,7 +125,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public boolean goToPrevious() {
-        if (this.isEmpty()||(current==first)) {
+        if (this.isEmpty() || (current == first)) {
             return false;
         } else {
             current = current.prior;

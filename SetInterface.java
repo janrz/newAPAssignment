@@ -14,7 +14,7 @@ package assignment2;
  * 		PRE
  * 		POST set object contains only the empty collection
  */
-public interface SetInterface<E extends Comparable<E>>  {
+public interface SetInterface<E extends Comparable<E>> {
 	
 	/** Initializes the set object to the array
 	 * @precondition
@@ -63,13 +63,20 @@ public interface SetInterface<E extends Comparable<E>>  {
 	 */
 	void delete(E src);
 	
-	/**
-	 * TODO 
+	/** Returns the set represented as a list
+	 * @precondition
+	 * 		- TODO list exists?
+	 * 		- list is not empty?
+	 * @postcondition
+	 * 		return list representation of the set, of data type List<E>
 	 */
 	List<E> getSet();
 	
-	/**
-	 * TODO
+	/** Returns the set represented as a string
+	 * @precondition
+	 * 		- TODO set exists? zo nauwkeurig?
+	 * @postcondition
+	 * 		return string representation of the set, of data type String
 	 */
 	String toString();
 	

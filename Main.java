@@ -45,6 +45,7 @@ public class Main {
 	void processAssignment(Scanner statement) throws APException {
 		statement = deleteSpaces(statement);
 		Identifier identifier = getIdentifier(statement);
+		System.out.print("created id");
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
 				throw new APException("= expected, not found");
