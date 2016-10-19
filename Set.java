@@ -4,16 +4,17 @@ package assignment2;
 public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	int amountElements;
-	List<E> set;
+	ListInterface<E> set;
 	
 	Set() {
 		amountElements = 0;
 		set = new List<E>();
 	}
 	
-	Set(Set<E> src) {
+	Set(SetInterface<E> src) {
 		amountElements = src.size();
-		set = src.getSet();
+		//System.out.print("amountElements = " + amountElements + "\n");
+		set = src.getSet().copy();
 	}
 	
 	public void init() {
@@ -37,7 +38,9 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public void add(E src) {
+		System.out.print("add \n");
 		if (!this.contains(src)) {
+			//System.out.print("src = " + src + "\n");
 			set.insert(src);
 			amountElements++;
 		}
@@ -50,11 +53,12 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 		}
 	}
 	
-	public List<E> getSet() {
+	public ListInterface<E> getSet() {
 		return set;
 	}
 	
 	public String toString() {
+		System.out.print("to string: ");
 		String setString = "{";
 		
 		set.goToFirst();
@@ -97,11 +101,9 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 
 	public SetInterface<E> union(SetInterface<E> secondSet) {
 		Set<E> union = new Set<>(this);
-		
 		for (int i = 0; i < secondSet.size(); i++) {
-			if (!union.contains(secondSet.get(i))) {
-				union.add(secondSet.get(i));
-			}
+			System.out.print(secondSet.get(i) + "\n");
+			union.add(secondSet.get(i));
 		}
 		return union;
 	}

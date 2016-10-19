@@ -25,16 +25,16 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public List<E> insert(E d) {
-        find(d);
+        find(d); // TODO waarom is dit?
         if (this.isEmpty()) {
             first = current = last = new Node(d);
             amountElements ++;
-        } else if (first.data.compareTo(d) > 0) {
+        } else if (current.data.compareTo(d) > 0) {
             current = new Node(d, null, first);
             first = current;
             current.next.prior = current;
             amountElements ++;
-        } else if (last.data.compareTo(d) <= 0){
+        } else if (current.data.compareTo(d) <= 0){
             current = new Node (d, last, null);
             last = current;
             current.prior.next = current;
@@ -84,16 +84,25 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
  
     public boolean find(E d) {
         current = first;
+       // System.out.print("eerste d:" + d + "\n");
+        //System.out.print("this:" + this.size() + "\n");
         for (int i = 0; i < this.size(); i++) {
-            E o = current.data;
+            E o = this.current.data;
+        //    System.out.print("set o:" + o + "\n");
+        //    System.out.print("set d:" + d + "\n");
             if (d.compareTo(o) == 0) {
+            	//System.out.print("true" + "\n");
                 return true;
-            } else if (d.compareTo(o) < 0 && current.next!=null) {
+            } else if ((d.compareTo(o) < 0) && current.next != null) {
                 current = current.next;
+//            } else if ((d.compareTo(o) > 0) && current.next != null) {
+//            	System.out.print("check");
             } else {
+            	//System.out.print("false" + "\n");
                 return false;
             }
         }
+   //     System.out.print("false2" + "\n");
         return false;
     }
  
@@ -134,8 +143,9 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public ListInterface<E> copy() {
-    	List<E> copiedList = new List<E>();
+    	ListInterface<E> copiedList = new List<E>();
     	this.goToFirst();
+    	copiedList.insert(this.retrieve());
     	while (this.goToNext()) {
     		copiedList.insert(this.retrieve());
     	}

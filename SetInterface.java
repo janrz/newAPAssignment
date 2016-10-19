@@ -70,7 +70,7 @@ public interface SetInterface<E extends Comparable<E>> {
 	 * @postcondition
 	 * 		return list representation of the set, of data type List<E>
 	 */
-	List<E> getSet();
+	ListInterface<E> getSet();
 	
 	/** Returns the set represented as a string
 	 * @precondition

@@ -20,7 +20,7 @@ public class Main {
 				Scanner statement = new Scanner(in.nextLine());
 				processStatement(statement);
 			} catch (APException e) {
-				out.print("\n" + e);
+				out.print("\n" + e + "\n");
 			}
 		}
 		in.close();
@@ -36,7 +36,9 @@ public class Main {
 			processAssignment(statement);
 		} else if (statement.hasNext("\\?")){
 			statement.next();
-			processPrintStatement(statement).toString();
+			SetInterface<BigInteger> setToPrint = new Set<BigInteger>();
+			setToPrint = processPrintStatement(statement);
+			printSet(setToPrint);
 		} else {
 			throw new APException("Invalid line");
 		}
@@ -45,7 +47,6 @@ public class Main {
 	void processAssignment(Scanner statement) throws APException {
 		statement = deleteSpaces(statement);
 		Identifier identifier = getIdentifier(statement);
-		System.out.print("created id");
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
 				throw new APException("= expected, not found");
@@ -56,51 +57,59 @@ public class Main {
 		statement.next();
 		statement.next();
 		SetInterface<BigInteger> collection = processExpression(statement);
-		
+		while (statement.hasNext()) {
+			if (statement.hasNext("[a-zA-Z]")) {
+				//TODO: andere exception bedenken
+				throw new APException("Two assignments on one line, first assignment was not saved");
+			} else {
+				statement.next();
+			}
+		}
 		if (hashmap.containsKey(identifier)) {
 			hashmap.remove(identifier);
 		}
 		hashmap.put(identifier, collection);
-		for(int i = 0; i < hashmap.get(identifier).size(); i++) {
-			System.out.print(hashmap.get(identifier).get(i) + ", ");
-		}
 		return;
 	}
 
 	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
 		statement = deleteSpaces(statement);
-		SetInterface<BigInteger> set = new Set<>();
-		set = processExpression(statement);
-		return set;
+		SetInterface<BigInteger> setToPrint = new Set<BigInteger>();
+		setToPrint = processExpression(statement);
+		return setToPrint;
 	}
 
 	SetInterface<BigInteger> processExpression(Scanner expression) throws APException {
-		SetInterface<BigInteger> firstCollection = new Set<>();
-		SetInterface<BigInteger> secondCollection = new Set<>();
+		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
+		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
 		firstCollection = processTerm(expression);
 		String additiveOperator;
+		expression = deleteSpaces(expression);
 		
 		while (expression.hasNext() && hasAdditiveOperator(expression) && !expression.hasNext("\\)")) {
-			expression = deleteSpaces(expression);
-			System.out.print("check of + wordt gevonden");
 			additiveOperator = expression.next();
+			expression = deleteSpaces(expression);
 			secondCollection = processTerm(expression);
 			if (additiveOperator.equals("+")) {
-				System.out.print("check of + wordt gevonden");
-				firstCollection = firstCollection.union(secondCollection);
+				//printSet(firstCollection);
+				//printSet(secondCollection);
+				firstCollection = firstCollection.union(new Set<BigInteger>(secondCollection));
 			} else if (additiveOperator.equals("-")) {
 				firstCollection = firstCollection.complement(secondCollection);
-			} else {
+			} else if (additiveOperator.equals("|")){
 				firstCollection = firstCollection.symmetricDifference(secondCollection);
+			} else {
+				expression.next();
 			}
+			
 		}
 		return firstCollection;
 	}
 	
 	SetInterface<BigInteger> processTerm(Scanner expression) throws APException {
 		
-		SetInterface<BigInteger> firstCollection = new Set<>();
-		SetInterface<BigInteger> secondCollection = new Set<>();
+		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
+		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
 		firstCollection = processFactor(expression);
 		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
 			if (expression.hasNext("\\)")) {
@@ -114,11 +123,14 @@ public class Main {
 	}
 	
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
-		SetInterface<BigInteger> collection = new Set<>();
+		SetInterface<BigInteger> collection = new Set<BigInteger>();
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
 			collection = hashmap.get(getIdentifier(expression));
+			if (collection == null) {
+				throw new APException("Collection does not exist");
+			}
 		} else if (expression.hasNext("\\(")) {
 			collection = processComplexFactor(expression);
 			if (!expression.hasNext("\\)")) {
@@ -166,7 +178,7 @@ public class Main {
 	}
 
 	boolean hasAdditiveOperator(Scanner expression) {
-		return (expression.hasNext("[\\|\\+\\-]"));
+		return (expression.hasNext("\\s*[\\|\\+\\-]"));
 	}
 	
 	boolean hasMultiplicativeOperator(Scanner expression) {
@@ -185,8 +197,47 @@ public class Main {
 		return expression;
 	}
 	
+	void printSet(SetInterface<BigInteger> set) {
+		String printString = "{";
+		for (int i = 0; i < set.size(); i++) {
+			printString += set.get(i);
+			if (i < set.size() - 1) {
+				printString += ", ";
+			}
+		}
+		printString += "}\n";
+		System.out.print(printString);
+		return;
+	}
+	
 	public static void main(String[] args) {
 		new Main().start();
+//		ListInterface<BigInteger> list = new List<>();
+//		list.insert(new BigInteger("25"));
+//		list.insert(new BigInteger("26"));
+//		list.insert(new BigInteger("27"));
+//		ListInterface<BigInteger> copiedList = new List<>();
+//		copiedList = list.copy();
+//		printList(list);
+//		printList(copiedList);
+//		list.insert(new BigInteger("28"));
+//		printList(list);
+//		printList(copiedList);
+//		copiedList.insert(new BigInteger("24"));
+//		printList(list);
+//		printList(copiedList);
+
+	}
+	
+	static void printList(ListInterface<BigInteger> list) {
+		list.goToFirst();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.print(list.retrieve());
+			if (i < list.size() - 1) {
+				list.goToNext();
+			}
+		}
+		System.out.print("\n");
 	}
 
 }

@@ -61,6 +61,6 @@ public interface IdentifierInterface {
 	 * 		true: 
 	 * 		false
 	 */
-	boolean equals(Identifier src);
+	boolean equals(Object src);
 	
 }
