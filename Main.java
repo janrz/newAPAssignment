@@ -20,7 +20,7 @@ public class Main {
 				Scanner statement = new Scanner(in.nextLine());
 				processStatement(statement);
 			} catch (APException e) {
-				out.print("\n" + e + "\n");
+				out.print(e + "\n");
 			}
 		}
 		in.close();
@@ -215,17 +215,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		new Main().start();
-	}
-	
-	static void printList(ListInterface<BigInteger> list) {
-		list.goToFirst();
-		for (int i = 0; i < list.size(); i++) {
-			System.out.print(list.retrieve());
-			if (i < list.size() - 1) {
-				list.goToNext();
-			}
-		}
-		System.out.print("\n");
 	}
 
 }

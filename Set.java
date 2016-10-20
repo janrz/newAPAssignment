@@ -13,7 +13,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	Set(SetInterface<E> src) {
 		amountElements = src.size();
-		//System.out.print("amountElements = " + amountElements + "\n");
 		set = src.getSet().copy();
 	}
 	
@@ -39,7 +38,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	public void add(E src) {
 		if (!this.contains(src)) {
-			//System.out.print("src = " + src + "\n");
 			set.insert(src);
 			amountElements++;
 		}
@@ -55,21 +53,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	
 	public ListInterface<E> getSet() {
 		return set;
-	}
-	
-	public String toString() {
-		String setString = "{";
-		
-		set.goToFirst();
-		for (int i = 0; i < this.size(); i++) {
-			setString += set.retrieve().toString();
-			if (i < this.size() - 1) {
-				setString += ", ";
-			}
-			set.goToNext();
-		}
-		setString += "}";
-		return setString;
 	}
 
 	public SetInterface<E> complement(SetInterface<E> secondSet) {

@@ -24,7 +24,7 @@ public interface SetInterface<E extends Comparable<E>> {
 	 */
 	void init();
 	
-	/**
+	/** 
 	 * TODO
 	 * @return
 	 */
@@ -71,14 +71,6 @@ public interface SetInterface<E extends Comparable<E>> {
 	 * 		return list representation of the set, of data type List<E>
 	 */
 	ListInterface<E> getSet();
-	
-	/** Returns the set represented as a string
-	 * @precondition
-	 * 		- TODO set exists? zo nauwkeurig?
-	 * @postcondition
-	 * 		return string representation of the set, of data type String
-	 */
-	String toString();
 	
 	/** Adds all identifiers of the first collection that are not equal to any identifier in the second collection to the array
 	 * @precondition
