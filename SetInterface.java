@@ -2,7 +2,8 @@ package assignment2;
 
 /** ADT for the class Set
  * 
- * @author Nousha van Dijk & Jan Rezelman
+ * @author 
+ * 		Nousha van Dijk & Jan Rezelman
  * @elements
  * 		Objects of the type E
  * @structure
@@ -11,22 +12,28 @@ package assignment2;
  * 		0 or more Objects
  * 
  * 		set()
- * 		PRE
- * 		POST set object contains only the empty collection
+ * 		PRE		-
+ * 		POST 	set object is empty
+ * 
+ * 		set (set src)
+ * 		PRE		-		
+ * 		POST	set object contains copy of src
  */
 public interface SetInterface<E extends Comparable<E>> {
 	
-	/** Initializes the set object to the array
+	/** Initializes the set object
 	 * @precondition
 	 * 		-
 	 * @postcondition
-	 * 		the set is empty
+	 * 		set object is empty
 	 */
 	void init();
 	
-	/** 
-	 * TODO
-	 * @return
+	/** Get element at index i
+	 * @precondition
+	 * 		-
+	 * @postcondition
+	 * 		element at index i is returned, or null if element does not exist
 	 */
 	E get(int i);
 	
@@ -39,21 +46,22 @@ public interface SetInterface<E extends Comparable<E>> {
 	 */
 	boolean isEmpty();
 	
-	/**
-	 * 
-	 * @param number
-	 * @return
+	/** Checks whether set contains src
+	 * @precondition
+	 * 		-
+	 * @postcondition
+	 * 		true: set contains src
+	 * 		false: set does not contain src
 	 */
-	boolean contains(E number);
+	boolean contains(E src);
 	
 	/** Add element to set
 	 * @precondition
-	 * 		Element is not in set
+	 * 		set does not contain element
 	 * @postcondition
-	 * 		src is in set
+	 * 		src is added to set
 	 */
 	void add(E src);
-	
 	
 	/** Delete element from set
 	 * @precondition
@@ -65,43 +73,41 @@ public interface SetInterface<E extends Comparable<E>> {
 	
 	/** Returns the set represented as a list
 	 * @precondition
-	 * 		- TODO list exists?
-	 * 		- list is not empty?
+	 * 		-
 	 * @postcondition
 	 * 		return list representation of the set, of data type List<E>
 	 */
 	ListInterface<E> getSet();
 	
-	/** Adds all identifiers of the first collection that are not equal to any identifier in the second collection to the array
+	/** Returns set of all values of the first collection that are not equal to any value in the second collection
 	 * @precondition
 	 * 		-
 	 * @postcondition
-	 * 		return new set of ....
-	 *		only identifiers in first collection that are not equal to any identifier in second collection are returned
+	 *		only values in first collection that are not equal to any value in second collection are returned
 	**/
 	SetInterface<E> complement(SetInterface<E> secondSet);
 	
-	/** Adds identifiers which are in both the first and second collection to the array
+	/** Returns set of all values that occur in both the first and second collection
 	 * @precondition
 	 *		-
 	 * @postcondition
-	 *		Equal identifiers from first and second collection are returned
+	 *		Equal values from first and second collection are returned
 	**/
 	SetInterface<E> intersection(SetInterface<E> secondSet);
 	
-	/** Adds identifiers of first and second collection to the array
+	/** Returns values of first and second collection
 	 * @precondition
 	 *		-
 	 * @postcondition
-	 *		All identifiers of first and second collection are returned, but no duplicates
+	 *		All values of first and second collection are returned, but no duplicates
 	**/
 	SetInterface<E> union(SetInterface<E> secondSet);
 	
-	/** Adds identifiers of first and second collection to the array, except identifiers which are in both collections
+	/** Returns values of first and second collection, except values which are in both collections
 	 * @precondition
 	 *		-
 	 * @postcondition
-	 *		All non-equal identifiers of first and second collection are returned
+	 *		All values of first and second collection that do not occur in both are returned
 	**/
 	SetInterface<E> symmetricDifference(SetInterface<E> secondSet);
 	

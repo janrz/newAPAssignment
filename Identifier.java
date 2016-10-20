@@ -12,7 +12,7 @@ private String identifierString;
 		identifierString = src.get();
 	}
 	
-	public void init () {
+	public void init() {
 		identifierString = "";
 	}
 	
@@ -53,8 +53,4 @@ private String identifierString;
 		return true;
 	}
 
-//	public boolean equals(Identifier src) {
-//		return (this.get().equals(src.get()));
-//	}
-	
 }

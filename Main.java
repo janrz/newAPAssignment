@@ -34,7 +34,7 @@ public class Main {
 			return;
 		} else if (statement.hasNext("[a-zA-Z]")) {
 			processAssignment(statement);
-		} else if (statement.hasNext("\\?")){
+		} else if (statement.hasNext("\\?")) {
 			statement.next();
 			SetInterface<BigInteger> setToPrint = new Set<BigInteger>();
 			setToPrint = processPrintStatement(statement);
@@ -71,7 +71,7 @@ public class Main {
 		return;
 	}
 
-	SetInterface<BigInteger> processPrintStatement (Scanner statement) throws APException {
+	SetInterface<BigInteger> processPrintStatement(Scanner statement) throws APException {
 		statement = deleteSpaces(statement);
 		SetInterface<BigInteger> setToPrint = new Set<BigInteger>();
 		setToPrint = processExpression(statement);
@@ -93,7 +93,7 @@ public class Main {
 				firstCollection = firstCollection.union(new Set<BigInteger>(secondCollection));
 			} else if (additiveOperator.equals("-")) {
 				firstCollection = firstCollection.complement(secondCollection);
-			} else if (additiveOperator.equals("|")){
+			} else if (additiveOperator.equals("|")) {
 				firstCollection = firstCollection.symmetricDifference(secondCollection);
 			} else {
 				expression.next();
@@ -164,8 +164,7 @@ public class Main {
 		while (!(set.hasNext("}"))) {
 			String numberString = "";
 			set.skip("\\s*");
-			while (set.hasNextInt()){
-				
+			while (set.hasNextInt()) {
 				numberString += set.nextInt();
 			}
 			if (!numberString.isEmpty()) {
@@ -186,12 +185,6 @@ public class Main {
 	
 	boolean hasMultiplicativeOperator(Scanner expression) {
 		return (expression.hasNext("\\*"));
-	}
-	
-	void checkEOL(Scanner expression) throws APException {
-		if (expression.hasNext()) {
-			throw new APException("End of line expected, but encountered more characters.");
-		}
 	}
 	
 	Scanner deleteSpaces (Scanner expression){

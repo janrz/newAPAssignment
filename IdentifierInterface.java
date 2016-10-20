@@ -3,25 +3,27 @@ package assignment2;
 
 /** ADT for the class Identifier
  * 
- * @author Nousha van Dijk & Jan Rezelman
+ * @author 
+ * 		Nousha van Dijk & Jan Rezelman
  * @elements
  * 		alphanumeric characters 
  * @structure
  * 		linear
  * @domain
  * 		letters a-z and combination of letters and numbers
- * 
+ * @constructor
  * 		identifier()
- * 		PRE
- * 		POST identifier object contains only the empty identifiers
- * 		identifier (identifier src);
- * 		PRE
- * 		POST identifier object contains copy of src
+ * 		PRE		-
+ * 		POST 	identifier object is empty
+ * 
+ * 		identifier (identifier src)
+ * 		PRE		-
+ * 		POST 	identifier object contains copy of src
  */
 
 public interface IdentifierInterface {
 	
-	/** Initializes the identifier object to the ...
+	/** Initializes the identifier object
 	 * @precondition
 	 * 		-
 	 * @postcondition
@@ -31,36 +33,44 @@ public interface IdentifierInterface {
 
 	/** Adds character to identifier
 	 * @precondition
-	 * 		-
+	 * 		identifier exists
 	 * @postcondition
-	 * 		Character is in the identifier object
+	 * 		Character is added to identifier object
 	 */
 	void add(String input);
 
 	/** Get identifier
 	 * @precondition
-	 * 		-
+	 * 		identifier exists
 	 * @postcondition
-	 * 		identifier is returned
+	 * 		identifierString is returned
 	 */
 	String get();
 	
 	/** Compare identifiers
 	 * @precondition
-	 * 		-
+	 * 		identifiers exist
 	 * @postcondition
-	 * 		true: identifiers are equal
-	 * 		false: identifiers are not equal
+	 * 		return whether identifier is smaller than,
+	 * 		equal to or greater than src
 	 */
 	int compareTo(Identifier src);
 	
-	/**
+	/** Get identifier hash code
 	 * @precondition
-	 * 
+	 * 		identifier exists
 	 * @postcondition
-	 * 		true: 
-	 * 		false
+	 * 		identifier hash code is returned
 	 */
-	boolean equals(Object src);
+	int hashCode();
+	
+	/** Check whether two objects are equal
+	 * @precondition
+	 * 		-
+	 * @postcondition
+	 * 		true: objects are equal 
+	 * 		false: objects are not equal
+	 */
+	boolean equals(Object obj);
 	
 }

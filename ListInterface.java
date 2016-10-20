@@ -1,35 +1,44 @@
 package assignment2;
 
-/**	@elements : objects of type E
- *	@structure : linear
- *	@domain : 	The elements in the list are sorted monotonically increasing.
- *				All rows of elements of type E are valid values for a list.
- *       		For every non-empty list the reference current is pointing to an
- *				element in the list.
- *	@constructor - List();
- *	<dl>
- *		<dt><b>PRE-condition</b><dd>		-
- *		<dt><b>POST-condition</b><dd> 	The new List-object is the empty list.
+/**	@elements 
+ * 		objects of type E
+ *	@structure 
+ *		linear
+ *	@domain
+ *	 	The elements in the list are sorted monotonically increasing.
+ *		All rows of elements of type E are valid values for a list.
+ *      For every non-empty list the reference current is pointing to an
+ *		element in the list.
+ *	@constructor
+ *		List();
+ *		PRE		-
+ *		POST 	the new List-object is the empty list.
  * </dl>
  **/
 
 public interface ListInterface<E extends Comparable<E>> {
 
-    /**	@precondition -
-     *  @postcondition - FALSE: list is not empty.
-     *  				TRUE:  list is empty.
-     **/
-    boolean isEmpty();
-
-    /** @precondition  -
-     *	@postcondition - list-POST is empty and has been returned.
+	/** @precondition  
+	 * 		-
+     *	@postcondition 
+     *		list-POST is empty and has been returned.
      **/
     ListInterface<E> init();
-
-    /**	@precondition  -
-     *	@postcondition - The number of elements has been returned.
+	
+    /**	@precondition
+     * 		-
+     *	@postcondition 
+     *		The number of elements has been returned.
      **/
     int size();
+    
+    /**	@precondition
+     * 		-
+     *  @postcondition 
+     *  	FALSE: list is not empty.
+     *  	TRUE:  list is empty.
+     **/
+    boolean isEmpty();
 
     /** @precondition  -
      *	@postcondition - Element d has been added to List-PRE.

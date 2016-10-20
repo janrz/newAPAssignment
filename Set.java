@@ -43,7 +43,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 		}
 	}
 	
-
 	public void delete(E src) {
 		if (this.contains(src)) {
 			set = set.remove();
@@ -92,7 +91,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 		SetInterface<E> complementAB = this.complement(secondSet);
 		SetInterface<E> complementBA = copyOfSecondSet.complement(this);
 		SetInterface<E> symmetricDifference = complementAB.union(complementBA);
-		
 		return symmetricDifference;
 	}
 
