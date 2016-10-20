@@ -55,12 +55,11 @@ public class Main {
 			}
 		}
 		statement.next();
-		statement.next();
+		deleteSpaces(statement);
 		SetInterface<BigInteger> collection = processExpression(statement);
 		while (statement.hasNext()) {
 			if (statement.hasNext("[a-zA-Z]")) {
-				//TODO: andere exception bedenken
-				throw new APException("Two assignments on one line, first assignment was not saved");
+				throw new APException("Invalid line");
 			} else {
 				statement.next();
 			}
@@ -91,8 +90,6 @@ public class Main {
 			expression = deleteSpaces(expression);
 			secondCollection = processTerm(expression);
 			if (additiveOperator.equals("+")) {
-				//printSet(firstCollection);
-				//printSet(secondCollection);
 				firstCollection = firstCollection.union(new Set<BigInteger>(secondCollection));
 			} else if (additiveOperator.equals("-")) {
 				firstCollection = firstCollection.complement(secondCollection);
@@ -107,15 +104,18 @@ public class Main {
 	}
 	
 	SetInterface<BigInteger> processTerm(Scanner expression) throws APException {
-		
+		expression = deleteSpaces(expression);
 		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
 		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
 		firstCollection = processFactor(expression);
+		expression = deleteSpaces(expression);
 		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
+			expression = deleteSpaces(expression);
 			if (expression.hasNext("\\)")) {
 				expression.next();
 				return firstCollection;
 			}
+			expression.next();
 			secondCollection = processFactor(expression);
 			firstCollection = firstCollection.intersection(secondCollection);
 		}
@@ -124,6 +124,7 @@ public class Main {
 	
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
 		SetInterface<BigInteger> collection = new Set<BigInteger>();
+		expression = deleteSpaces(expression);
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
 		} else if (expression.hasNext("[a-zA-Z]")) {
@@ -167,7 +168,9 @@ public class Main {
 				
 				numberString += set.nextInt();
 			}
-			collection.add(new BigInteger(numberString));
+			if (!numberString.isEmpty()) {
+				collection.add(new BigInteger(numberString));
+			}
 			set.skip("\\s*");
 			if (set.hasNext(",")) {
 				set.next();
@@ -212,21 +215,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		new Main().start();
-//		ListInterface<BigInteger> list = new List<>();
-//		list.insert(new BigInteger("25"));
-//		list.insert(new BigInteger("26"));
-//		list.insert(new BigInteger("27"));
-//		ListInterface<BigInteger> copiedList = new List<>();
-//		copiedList = list.copy();
-//		printList(list);
-//		printList(copiedList);
-//		list.insert(new BigInteger("28"));
-//		printList(list);
-//		printList(copiedList);
-//		copiedList.insert(new BigInteger("24"));
-//		printList(list);
-//		printList(copiedList);
-
 	}
 	
 	static void printList(ListInterface<BigInteger> list) {

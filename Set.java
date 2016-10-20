@@ -34,17 +34,17 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public boolean contains(E src) {
-		return set.find(src);
+		return this.set.find(src);
 	}
 	
 	public void add(E src) {
-		System.out.print("add \n");
 		if (!this.contains(src)) {
 			//System.out.print("src = " + src + "\n");
 			set.insert(src);
 			amountElements++;
 		}
 	}
+	
 
 	public void delete(E src) {
 		if (this.contains(src)) {
@@ -58,7 +58,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public String toString() {
-		System.out.print("to string: ");
 		String setString = "{";
 		
 		set.goToFirst();
@@ -67,6 +66,7 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 			if (i < this.size() - 1) {
 				setString += ", ";
 			}
+			set.goToNext();
 		}
 		setString += "}";
 		return setString;
@@ -74,7 +74,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 
 	public SetInterface<E> complement(SetInterface<E> secondSet) {
 		Set<E> complement = new Set<>(this);
-	
 		for (int i = 0; i < secondSet.size(); i++) {
 			for (int x = 0; x < this.size(); x++) {
 				if (secondSet.get(i).equals(this.get(x))) {
@@ -82,13 +81,11 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 				}
 			}
 		}
-		
 		return complement;
 	}
 
 	public SetInterface<E> intersection(SetInterface<E> secondSet) {
 		Set<E> intersection = new Set<>();
-		
         for (int i = 0; i < secondSet.size(); i++) {
             for (int x = 0; x < this.size(); x++) {
                 if (secondSet.get(i).equals(this.get(x))) {
@@ -102,16 +99,16 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	public SetInterface<E> union(SetInterface<E> secondSet) {
 		Set<E> union = new Set<>(this);
 		for (int i = 0; i < secondSet.size(); i++) {
-			System.out.print(secondSet.get(i) + "\n");
 			union.add(secondSet.get(i));
 		}
 		return union;
 	}
 
 	public SetInterface<E> symmetricDifference(SetInterface<E> secondSet) {
-		SetInterface<E> union = this.union(secondSet);
-		SetInterface<E> intersection = this.intersection(secondSet);
-		SetInterface<E> symmetricDifference = union.complement(intersection);
+		SetInterface<E> copyOfSecondSet = new Set<E>(secondSet);
+		SetInterface<E> complementAB = this.complement(secondSet);
+		SetInterface<E> complementBA = copyOfSecondSet.complement(this);
+		SetInterface<E> symmetricDifference = complementAB.union(complementBA);
 		
 		return symmetricDifference;
 	}

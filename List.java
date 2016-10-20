@@ -25,26 +25,23 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public List<E> insert(E d) {
-        find(d); // TODO waarom is dit?
+        find(d);
         if (this.isEmpty()) {
             first = current = last = new Node(d);
-            amountElements ++;
         } else if (current.data.compareTo(d) > 0) {
             current = new Node(d, null, first);
             first = current;
             current.next.prior = current;
-            amountElements ++;
         } else if (current.data.compareTo(d) <= 0){
             current = new Node (d, last, null);
             last = current;
             current.prior.next = current;
-            amountElements ++;
         } else {
             current = new Node (d, current, current.next);
             current.next.prior = current;
             current.prior.next = current;
-            amountElements ++;
         }   
+        amountElements ++;
         return this;
     }
  
@@ -59,53 +56,51 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     public List<E> remove() {
     	if (this.isEmpty()) {
     		return this;
-    	}
-    	else if (amountElements == 1) {
+    	} else if (amountElements == 1) {
             current = null;
             current = new Node(null , current, null);
-            amountElements --;
-        } else if (current.prior == null) {
+        } else if (current.prior == null) {       	
             current.next.prior = null;
-            current = current.next;  
-            amountElements --;
+            current = current.next;
+            first = current;
         } else if (current.next == null) {
             current.prior.next = null;
             current = current.prior;
-            amountElements --;
+            last = current;
         } else {
             current.next.prior = current.prior;
             current.prior.next = current.next;
             current = current.next;
-            amountElements --;
         }
-        
+    	amountElements --;
         return this;    
     }
  
     public boolean find(E d) {
         current = first;
-       // System.out.print("eerste d:" + d + "\n");
+        //System.out.print("eerste d:" + d + "\n");
         //System.out.print("this:" + this.size() + "\n");
-        for (int i = 0; i < this.size(); i++) {
-            E o = this.current.data;
-        //    System.out.print("set o:" + o + "\n");
-        //    System.out.print("set d:" + d + "\n");
-            if (d.compareTo(o) == 0) {
+        for (int i = 0; i < amountElements; i++) {
+            E o = current.data;
+            //System.out.print("set o:" + o + "\n");
+            //System.out.print("set d:" + d + "\n");
+            if (o.compareTo(d) == 0) {
             	//System.out.print("true" + "\n");
                 return true;
-            } else if ((d.compareTo(o) < 0) && current.next != null) {
+            } else if ((o.compareTo(d) < 0) && current.next != null) {
                 current = current.next;
-//            } else if ((d.compareTo(o) > 0) && current.next != null) {
-//            	System.out.print("check");
+            } else if ((o.compareTo(d) > 0) && current.next != null) {
+            	//System.out.print("check");
+            	return false;
             } else {
             	//System.out.print("false" + "\n");
                 return false;
             }
         }
-   //     System.out.print("false2" + "\n");
+        //System.out.print("false2" + "\n");
         return false;
     }
- 
+     
     public boolean goToFirst() {
         if (this.isEmpty()) {
             return false;
