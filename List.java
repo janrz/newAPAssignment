@@ -25,6 +25,9 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public List<E> insert(E d) {
+    	if (d == null) {
+        	return this;
+        }
         find(d);
         if (this.isEmpty()) {
             first = current = last = new Node(d);
@@ -78,8 +81,14 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
  
     public boolean find(E d) {
         current = first;
+        if (d == null) {
+        	return false;
+        }
         for (int i = 0; i < amountElements; i++) {
             E o = current.data;
+            if (o == null) {
+            	return false;
+            }
             if (o.compareTo(d) == 0) {
                 return true;
             } else if ((o.compareTo(d) < 0) && current.next != null) {

@@ -194,14 +194,14 @@ public class Main {
 	}
 	
 	void printSet(SetInterface<BigInteger> set) {
-		String printString = "{";
+		String printString = "";
 		for (int i = 0; i < set.size(); i++) {
 			printString += set.get(i);
 			if (i < set.size() - 1) {
-				printString += ", ";
+				printString += " ";
 			}
 		}
-		printString += "}\n";
+		printString += "\n";
 		System.out.print(printString);
 		return;
 	}
