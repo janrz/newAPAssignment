@@ -8,6 +8,11 @@ public class Main {
 	
 	PrintStream out;
 	HashMap<Identifier, SetInterface<BigInteger>> hashmap = new HashMap<Identifier, SetInterface<BigInteger>>();
+	int teller = 0;
+	int tellerOpenBracket = 0;
+	int tellerClosedBracket = 0;
+	int checkBracket = 0;
+	int check1 = 0;
 	
 	Main() {
 		out = new PrintStream(System.out);
@@ -20,6 +25,7 @@ public class Main {
 				Scanner statement = new Scanner(in.nextLine());
 				processStatement(statement);
 			} catch (APException e) {
+				clearInitialValues();
 				out.print(e + "\n");
 			}
 		}
@@ -42,6 +48,7 @@ public class Main {
 		} else {
 			throw new APException("Invalid line");
 		}
+		clearInitialValues();
 	}
 
 	void processAssignment(Scanner statement) throws APException {
@@ -108,6 +115,9 @@ public class Main {
 		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
 		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
 		firstCollection = processFactor(expression);
+		if (expression.hasNext("\\)") && checkBracket == 0){
+			throw new APException("An opening bracket is missing");
+		}
 		expression = deleteSpaces(expression);
 		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
 			expression = deleteSpaces(expression);
@@ -117,6 +127,7 @@ public class Main {
 			}
 			expression.next();
 			secondCollection = processFactor(expression);
+			
 			firstCollection = firstCollection.intersection(secondCollection);
 		}
 		return firstCollection;
@@ -127,20 +138,27 @@ public class Main {
 		expression = deleteSpaces(expression);
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
-		} else if (expression.hasNext("[a-zA-Z]")) {
+		} 
+		
+		else if (expression.hasNext("[a-zA-Z]")) {
 			collection = hashmap.get(getIdentifier(expression));
+			expression = deleteSpaces(expression);
 			if (collection == null) {
 				throw new APException("Collection does not exist");
 			}
 		} else if (expression.hasNext("\\(")) {
+			expression = deleteSpaces(expression);
+			checkBracket = 1;
 			collection = processComplexFactor(expression);
 			if (!expression.hasNext("\\)")) {
 				throw new APException("Expected closing bracket, not found.");
 			}
+			
 			expression.next();
 		} else {
 			throw new APException("No valid factor found, found character");
 		}
+		
 		return collection;
 	}
 	
@@ -160,22 +178,83 @@ public class Main {
 	SetInterface<BigInteger> processSet(Scanner set) throws APException {
 		set.next();
 		SetInterface<BigInteger> collection = new Set<>();
+		set = deleteSpaces(set);
+		if (set.hasNext(",")) {
+			throw new APException ("Set needs to start with a number");
+		}
 		
 		while (!(set.hasNext("}"))) {
 			String numberString = "";
 			set.skip("\\s*");
 			while (set.hasNextInt()) {
-				numberString += set.nextInt();
+				if (set.hasNext("0"))	{
+					numberString += set.nextInt();
+					if (set.hasNextInt() && teller==0){
+						throw new APException ("after zero, no new numbers");
+					}
+				}
+				
+				else if (set.hasNextInt()) {
+					numberString += set.nextInt();
+					teller= teller + 1;
+					if (set.hasNext("[a-zA-Z]")){
+						throw new APException ("This value cannot be used");
+					}
+					
+				}
+				
+				else if (!set.hasNext(",")){
+					set.next();
+				}
 			}
+			
+			teller = 0;
+			
 			if (!numberString.isEmpty()) {
 				collection.add(new BigInteger(numberString));
+			}
+			
+			
+			if (set.hasNext("-") || set.hasNext("\\+")){
+				throw new APException ("No positive/negative values allowed");
+			}
+			
+			if (set.hasNext("\\s")){
+				set.next();
+				if (set.hasNextInt()){
+					throw new APException ("Comma is missing");
+				}
 			}
 			set.skip("\\s*");
 			if (set.hasNext(",")) {
 				set.next();
+				set = deleteSpaces(set);
+				if (set.hasNext(",")) {
+					throw new APException ("Should be a number after the comma");
+				}
+				if (set.hasNext("}")){
+					throw new APException ("Should be a number after the comma");
+				}
+			}
+
+			if (!set.hasNext()){
+				throw new APException ("There should be a }");
 			}
 		}
+		
 		set.next();
+		set = deleteSpaces(set);
+		
+		if (set.hasNext("[a-zA-Z]")){
+			throw new APException("should be no character after a closed bracket");
+		}
+		if (set.hasNext("\\{")){
+			throw new APException("should be no open bracket after a closed bracket");
+		}
+		if (set.hasNext("\\(")){
+			throw new APException ("should be no open ( after a closed bracket");
+		}
+		
 		return collection;
 	}
 
@@ -185,6 +264,11 @@ public class Main {
 	
 	boolean hasMultiplicativeOperator(Scanner expression) {
 		return (expression.hasNext("\\*"));
+	}
+	
+	void clearInitialValues() {
+		checkBracket = 0;
+		return;
 	}
 	
 	Scanner deleteSpaces (Scanner expression){
