@@ -25,9 +25,11 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public List<E> insert(E d) {
+    	
     	if (d == null) {
         	return this;
         }
+    	
         find(d);
         if (this.isEmpty()) {
             first = current = last = new Node(d);
@@ -45,10 +47,12 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
             current.prior.next = current;
         }   
         amountElements ++;
+        
         return this;
     }
  
     public E retrieve() {
+    	
         if (!this.isEmpty()) {
             return current.data;
         } else {
@@ -57,6 +61,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public List<E> remove() {
+    	
     	if (this.isEmpty()) {
     		return this;
     	} else if (amountElements == 1) {
@@ -76,10 +81,12 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
             current = current.next;
         }
     	amountElements --;
+    	
         return this;    
     }
  
     public boolean find(E d) {
+    	
         current = first;
         if (d == null) {
         	return false;
@@ -91,18 +98,18 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
             }
             if (o.compareTo(d) == 0) {
                 return true;
-            } else if ((o.compareTo(d) < 0) && current.next != null) {
+            } else if ((o.compareTo(d) != 0) && current.next != null) {
                 current = current.next;
-            } else if ((o.compareTo(d) > 0) && current.next != null) {
-            	return false;
             } else {
                 return false;
             }
         }
+        
         return false;
     }
      
     public boolean goToFirst() {
+    	
         if (this.isEmpty()) {
             return false;
         } else {
@@ -112,6 +119,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public boolean goToLast() {
+    	
         if (this.isEmpty()) {
             return false;
         } else {
@@ -121,6 +129,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public boolean goToNext() {
+    	
         if (this.isEmpty() || current == last) {
             return false;
         } else {
@@ -130,6 +139,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
  
     public boolean goToPrevious() {
+    	
         if (this.isEmpty() || (current == first)) {
             return false;
         } else {
@@ -139,12 +149,15 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
     }
     
     public ListInterface<E> copy() {
+    	
     	ListInterface<E> copiedList = new List<E>();
     	this.goToFirst();
     	copiedList.insert(this.retrieve());
+    	
     	while (this.goToNext()) {
     		copiedList.insert(this.retrieve());
     	}
+    	
     	return copiedList;
     }
      

@@ -21,10 +21,12 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public E get(int index) {
+		
 		this.set.goToFirst();
 		for (int i = 0; i < index; i++) {
 			this.set.goToNext();
 		}
+		
 		return set.retrieve();
 	}
 
@@ -37,6 +39,7 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public void add(E src) {
+		
 		if (!this.contains(src)) {
 			set.insert(src);
 			amountElements++;
@@ -44,6 +47,7 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 	
 	public void delete(E src) {
+		
 		if (this.contains(src)) {
 			set = set.remove();
 			amountElements--;
@@ -55,6 +59,7 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 	}
 
 	public SetInterface<E> complement(SetInterface<E> secondSet) {
+		
 		Set<E> complement = new Set<>(this);
 		for (int i = 0; i < secondSet.size(); i++) {
 			for (int x = 0; x < this.size(); x++) {
@@ -63,10 +68,12 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
 				}
 			}
 		}
+		
 		return complement;
 	}
 
 	public SetInterface<E> intersection(SetInterface<E> secondSet) {
+		
 		Set<E> intersection = new Set<>();
         for (int i = 0; i < secondSet.size(); i++) {
             for (int x = 0; x < this.size(); x++) {
@@ -75,22 +82,27 @@ public class Set<E extends Comparable<E>> implements SetInterface<E>{
                 }
             }
         }
+        
         return intersection;
 	}
 
 	public SetInterface<E> union(SetInterface<E> secondSet) {
+		
 		Set<E> union = new Set<>(this);
 		for (int i = 0; i < secondSet.size(); i++) {
 			union.add(secondSet.get(i));
 		}
+		
 		return union;
 	}
 
 	public SetInterface<E> symmetricDifference(SetInterface<E> secondSet) {
+		
 		SetInterface<E> copyOfSecondSet = new Set<E>(secondSet);
 		SetInterface<E> complementAB = this.complement(secondSet);
 		SetInterface<E> complementBA = copyOfSecondSet.complement(this);
 		SetInterface<E> symmetricDifference = complementAB.union(complementBA);
+		
 		return symmetricDifference;
 	}
 

@@ -33,7 +33,9 @@ public class Main {
 	}
 	
 	void processStatement(Scanner statement) throws APException {
+		
 		statement = deleteSpaces(statement);
+		
 		if (!statement.hasNext()) {
 			throw new APException("Encountered empty line");
 		} else if (statement.hasNext("\\/")) {
@@ -48,12 +50,15 @@ public class Main {
 		} else {
 			throw new APException("Invalid line");
 		}
+		
 		clearInitialValues();
 	}
 
 	void processAssignment(Scanner statement) throws APException {
+		
 		statement = deleteSpaces(statement);
 		Identifier identifier = getIdentifier(statement);
+		
 		while (!statement.hasNext("=")) {
 			if (!statement.hasNext()) {
 				throw new APException("= expected, not found");
@@ -61,9 +66,11 @@ public class Main {
 				statement.next();
 			}
 		}
+		
 		statement.next();
 		deleteSpaces(statement);
 		SetInterface<BigInteger> collection = processExpression(statement);
+		
 		while (statement.hasNext()) {
 			if (statement.hasNext("[a-zA-Z]")) {
 				throw new APException("Invalid line");
@@ -71,21 +78,26 @@ public class Main {
 				statement.next();
 			}
 		}
+		
 		if (hashmap.containsKey(identifier)) {
 			hashmap.remove(identifier);
 		}
 		hashmap.put(identifier, collection);
+		
 		return;
 	}
 
 	SetInterface<BigInteger> processPrintStatement(Scanner statement) throws APException {
+		
 		statement = deleteSpaces(statement);
 		SetInterface<BigInteger> setToPrint = new Set<BigInteger>();
 		setToPrint = processExpression(statement);
+		
 		return setToPrint;
 	}
 
 	SetInterface<BigInteger> processExpression(Scanner expression) throws APException {
+		
 		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
 		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
 		firstCollection = processTerm(expression);
@@ -105,12 +117,13 @@ public class Main {
 			} else {
 				expression.next();
 			}
-			
 		}
+		
 		return firstCollection;
 	}
 	
 	SetInterface<BigInteger> processTerm(Scanner expression) throws APException {
+		
 		expression = deleteSpaces(expression);
 		SetInterface<BigInteger> firstCollection = new Set<BigInteger>();
 		SetInterface<BigInteger> secondCollection = new Set<BigInteger>();
@@ -119,6 +132,7 @@ public class Main {
 			throw new APException("An opening bracket is missing");
 		}
 		expression = deleteSpaces(expression);
+		
 		while (expression.hasNext() && hasMultiplicativeOperator(expression)) {
 			expression = deleteSpaces(expression);
 			if (expression.hasNext("\\)")) {
@@ -127,20 +141,19 @@ public class Main {
 			}
 			expression.next();
 			secondCollection = processFactor(expression);
-			
 			firstCollection = firstCollection.intersection(secondCollection);
 		}
+		
 		return firstCollection;
 	}
 	
 	SetInterface<BigInteger> processFactor(Scanner expression) throws APException {
+		
 		SetInterface<BigInteger> collection = new Set<BigInteger>();
 		expression = deleteSpaces(expression);
 		if (expression.hasNext("\\{")) {
 			collection = processSet(expression);
-		} 
-		
-		else if (expression.hasNext("[a-zA-Z]")) {
+		} else if (expression.hasNext("[a-zA-Z]")) {
 			collection = hashmap.get(getIdentifier(expression));
 			expression = deleteSpaces(expression);
 			if (collection == null) {
@@ -153,7 +166,6 @@ public class Main {
 			if (!expression.hasNext("\\)")) {
 				throw new APException("Expected closing bracket, not found.");
 			}
-			
 			expression.next();
 		} else {
 			throw new APException("No valid factor found, found character");
@@ -163,19 +175,23 @@ public class Main {
 	}
 	
 	Identifier getIdentifier(Scanner expression) throws APException {
+		
 		Identifier identifier = new Identifier();
 		while (expression.hasNext("[a-zA-Z0-9]")) {
 			identifier.add(expression.next());
 		}
+		
 		return identifier;
 	}
 	
 	SetInterface<BigInteger> processComplexFactor (Scanner expression) throws APException {
+		
 		expression.next();
 		return processExpression(expression);
 	}
 	
 	SetInterface<BigInteger> processSet(Scanner set) throws APException {
+		
 		set.next();
 		SetInterface<BigInteger> collection = new Set<>();
 		set = deleteSpaces(set);
@@ -192,18 +208,13 @@ public class Main {
 					if (set.hasNextInt() && teller==0){
 						throw new APException ("after zero, no new numbers");
 					}
-				}
-				
-				else if (set.hasNextInt()) {
+				} else if (set.hasNextInt()) {
 					numberString += set.nextInt();
 					teller= teller + 1;
 					if (set.hasNext("[a-zA-Z]")){
 						throw new APException ("This value cannot be used");
 					}
-					
-				}
-				
-				else if (!set.hasNext(",")){
+				} else if (!set.hasNext(",")){
 					set.next();
 				}
 			}
@@ -214,25 +225,22 @@ public class Main {
 				collection.add(new BigInteger(numberString));
 			}
 			
-			
 			if (set.hasNext("-") || set.hasNext("\\+")){
 				throw new APException ("No positive/negative values allowed");
-			}
-			
-			if (set.hasNext("\\s")){
+			} else if (set.hasNext("\\s")){
 				set.next();
 				if (set.hasNextInt()){
 					throw new APException ("Comma is missing");
 				}
 			}
+			
 			set.skip("\\s*");
 			if (set.hasNext(",")) {
 				set.next();
 				set = deleteSpaces(set);
 				if (set.hasNext(",")) {
 					throw new APException ("Should be a number after the comma");
-				}
-				if (set.hasNext("}")){
+				} else if (set.hasNext("}")){
 					throw new APException ("Should be a number after the comma");
 				}
 			}
@@ -247,11 +255,9 @@ public class Main {
 		
 		if (set.hasNext("[a-zA-Z]")){
 			throw new APException("should be no character after a closed bracket");
-		}
-		if (set.hasNext("\\{")){
+		} else if (set.hasNext("\\{")){
 			throw new APException("should be no open bracket after a closed bracket");
-		}
-		if (set.hasNext("\\(")){
+		} else if (set.hasNext("\\(")){
 			throw new APException ("should be no open ( after a closed bracket");
 		}
 		
@@ -272,12 +278,15 @@ public class Main {
 	}
 	
 	Scanner deleteSpaces (Scanner expression){
+		
 		expression.useDelimiter("");
 		expression.skip("\\s*");
+		
 		return expression;
 	}
 	
 	void printSet(SetInterface<BigInteger> set) {
+		
 		String printString = "";
 		for (int i = 0; i < set.size(); i++) {
 			printString += set.get(i);
@@ -285,8 +294,8 @@ public class Main {
 				printString += " ";
 			}
 		}
-		printString += "\n";
-		System.out.print(printString);
+		System.out.print(printString += "\n");
+		
 		return;
 	}
 	
